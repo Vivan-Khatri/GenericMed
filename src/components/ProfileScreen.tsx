@@ -1,0 +1,195 @@
+import React, { useState } from 'react';
+import { User, Bell, MapPin, ShieldCheck, Heart, FileText, ChevronRight, Check, ExternalLink, Edit3, Save, X } from 'lucide-react';
+
+interface ProfileScreenProps {
+  currentLocation: string;
+  onOpenLocationModal: () => void;
+}
+
+export const ProfileScreen: React.FC<ProfileScreenProps> = ({
+  currentLocation,
+  onOpenLocationModal,
+}) => {
+  const [profileName, setProfileName] = useState('Aarav Mehta');
+  const [profileEmail, setProfileEmail] = useState('aarav.mehta@healthcare-sample.org');
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempName, setTempName] = useState(profileName);
+  const [tempEmail, setTempEmail] = useState(profileEmail);
+
+  const [priceAlerts, setPriceAlerts] = useState(true);
+  const [regulatoryAlerts, setRegulatoryAlerts] = useState(true);
+  const [stockAlerts, setStockAlerts] = useState(false);
+
+  const handleSaveProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (tempName.trim()) setProfileName(tempName.trim());
+    if (tempEmail.trim()) setProfileEmail(tempEmail.trim());
+    setIsEditing(false);
+  };
+
+  const getInitials = (name: string) => {
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase() || 'AM';
+  };
+
+  return (
+    <div className="pb-28 space-y-4 px-4 pt-3 max-w-2xl mx-auto">
+      {/* Profile Header */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+        {isEditing ? (
+          <form onSubmit={handleSaveProfile} className="space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span className="text-xs font-bold text-slate-800">Edit Profile Details</span>
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="text-slate-400 hover:text-slate-600 p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-600 mb-1">Full Name</label>
+              <input
+                type="text"
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                placeholder="e.g. Aarav Mehta"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-600 mb-1">Email Address</label>
+              <input
+                type="email"
+                value={tempEmail}
+                onChange={(e) => setTempEmail(e.target.value)}
+                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                placeholder="e.g. member@healthcare-sample.org"
+                required
+              />
+            </div>
+            <div className="flex items-center gap-2 pt-1">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-sky-700 hover:bg-sky-800 text-white text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-colors"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>Save Changes</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setTempName(profileName);
+                  setTempEmail(profileEmail);
+                  setIsEditing(false);
+                }}
+                className="px-3 py-2 border border-slate-200 text-slate-600 text-xs font-medium rounded-xl hover:bg-slate-50 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="flex items-center gap-3.5">
+            <div className="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-lg shadow-sm flex-shrink-0">
+              {getInitials(profileName)}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <h2 className="text-base font-bold text-slate-900">{profileName}</h2>
+                <span className="bg-emerald-50 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                  Verified Member
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 mt-0.5 truncate">{profileEmail}</p>
+              <div className="text-[11px] text-slate-400 mt-0.5">Jan Aushadhi Care ID #JA-9421</div>
+            </div>
+            <button
+              onClick={() => {
+                setTempName(profileName);
+                setTempEmail(profileEmail);
+                setIsEditing(true);
+              }}
+              className="p-2 text-slate-400 hover:text-sky-700 hover:bg-sky-50 rounded-xl transition-colors"
+              title="Edit Profile"
+              id="edit-profile-btn"
+            >
+              <Edit3 className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Primary Preferences */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs space-y-3">
+        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+          Preferences & District
+        </span>
+
+        <button
+          onClick={onOpenLocationModal}
+          className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors text-left"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center">
+              <MapPin className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="text-xs font-semibold text-slate-900">Preferred Search Location</div>
+              <div className="text-[11px] text-slate-500">{currentLocation}</div>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-400" />
+        </button>
+
+        {/* Notifications toggles */}
+        <div className="space-y-2 pt-2 border-t border-slate-100">
+          <div className="flex items-center justify-between py-1.5 text-xs">
+            <div>
+              <div className="font-semibold text-slate-900">Price Drop Alerts</div>
+              <div className="text-[11px] text-slate-500">Notify when saved medicines drop in cost</div>
+            </div>
+            <input
+              type="checkbox"
+              checked={priceAlerts}
+              onChange={(e) => setPriceAlerts(e.target.checked)}
+              className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 border-slate-300"
+            />
+          </div>
+
+          <div className="flex items-center justify-between py-1.5 text-xs">
+            <div>
+              <div className="font-semibold text-slate-900">FDA Bioequivalence Sync</div>
+              <div className="text-[11px] text-slate-500">Alerts when new generic formulations receive AB rating</div>
+            </div>
+            <input
+              type="checkbox"
+              checked={regulatoryAlerts}
+              onChange={(e) => setRegulatoryAlerts(e.target.checked)}
+              className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 border-slate-300"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Regulatory & Safety Guide */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs space-y-2.5">
+        <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
+          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <span>About GenericMed Regulatory Standards</span>
+        </div>
+        <p className="text-xs text-slate-600 leading-relaxed">
+          Generic medicines contain the exact same active pharmaceutical ingredient (API), strength, dosage form, and route of administration as brand-name drugs.
+        </p>
+        <div className="p-3 bg-sky-50 rounded-xl border border-sky-100 text-[11px] text-sky-900 leading-relaxed">
+          <span className="font-bold">FDA Orange Book (AB Rating):</span> Products rated AB meet all bioequivalence guidelines and produce identical therapeutic serum levels in human subjects.
+        </div>
+      </div>
+    </div>
+  );
+};

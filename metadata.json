@@ -1,0 +1,6 @@
+{
+  "name": "GenericMed",
+  "description": "Medicine price comparison and discovery platform to find exact generic bioequivalent matches, compare chemist prices, and save up to 85%.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
