@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@layer base {
+  .dark {
+    /* Swap light backgrounds to dark */
+    --color-white: #0f172a;       /* slate-900 */
+    --color-slate-50: #1e293b;    /* slate-800 */
+    --color-slate-100: #0f172a;   /* slate-900 */
+    --color-slate-200: #334155;   /* slate-700 */
+    
+    /* Swap dark text/elements to light */
+    --color-slate-900: #ffffff;   /* white */
+    --color-slate-800: #f8fafc;   /* slate-50 */
+    --color-slate-700: #e2e8f0;   /* slate-200 */
+    --color-slate-600: #cbd5e1;   /* slate-300 */
+    --color-slate-500: #94a3b8;   /* slate-400 */
+    
+    /* Mute borders */
+    --color-slate-300: #475569;   /* slate-600 */
+    
+    /* Adjust sky blue backgrounds for contrast */
+    --color-sky-50: #082f49;      /* sky-900 */
+    --color-sky-100: #0c4a6e;     /* sky-800 */
+    
+    /* Invert default body colors */
+    background-color: #0f172a;
+    color: #ffffff;
+    
+    /* Force shadow colors to be visible on dark */
+    --tw-shadow-color: rgba(0,0,0,0.5);
+  }
+}

@@ -1,4 +1,25 @@
-﻿# 📦 GenericMed — Changelog
+# 📦 GenericMed — Changelog
+
+## [1.0.0] — 2026-11-01
+
+### Added
+- **Multi-City Expansion** — Added support for multiple cities including Chicago, Los Angeles, and Austin in the Location district selector.
+- **Admin Analytics & Moderation** — Built out the Platform Analytics view with traffic charts and conversion metrics. Added "Suspend Partner" functionality for immediate action against bad actors.
+- **Pharmacist Chat** — Introduced a real-time messaging interface between customers and pharmacists, accessible from both the Customer Saved Screen and Chemist Reservation Inbox.
+- **Localization (i18n)** — Added full Spanish (`es`) translation support and a language toggle in the Profile Preferences.
+- **Third-Party API Management** — Added a "Public API Keys" section to the Admin portal for generating and revoking access keys for pharmacy chain integrations.
+- **Insurance Coverage Checker** — Added an Insurance Provider selector to user profiles, dynamically rendering 'Covered' badges and ₹0.00 estimated co-pays on search results.
+
+## [0.8.0] — 2026-10-15
+
+### Added
+- **Smart Search & GPS** — Added multi-term fuzzy matching for medicine search. Integrated browser Geolocation API (`navigator.geolocation`) to auto-detect user location and precisely calculate distance to pharmacies using the Haversine formula.
+- **Price History & Trends** — Added 4-month historical price data to medicines. Implemented a pure SVG/CSS sparkline chart in `SearchResultsScreen` to visualize trends with rising/falling/stable indicator badges.
+- **Home Delivery Options** — Enhanced `ReserveModal` to allow users to choose between 'Store Pickup' and 'Home Delivery' (including estimated 45-60 min ETA and address capture). Updated Chemist `ReservationInbox` with "Mark Out for Delivery" and "Mark Delivered" actions.
+- **Prescription Management** — Added a new "My Prescriptions" section to the user `ProfileScreen`, featuring simulated Rx image uploads and status tracking (Pending Review, Verified, Rejected).
+- **UI Enhancements** — Added advanced sorting (by price, distance, freshness, and pharmacy rating) and directional (asc/desc) toggles to `SearchResultsScreen`. Updated `SavedScreen` to clearly differentiate delivery tracking from pickup tokens.
+
+---
 
 > All notable changes to GenericMed are documented in this file.
 > Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
@@ -11,13 +32,48 @@
 > Changes staged for the next release.
 
 ### Planned
-- User authentication (login/signup) for customer and chemist roles
-- Real backend API replacing mock data layer
-- QR code generation on reservation confirmation
-- Real-time price freshness with WebSocket polling
-- Error boundary wrapping for portal components
+- Phase 2: Chemist onboarding, bulk inventory CSV upload, push notifications, revenue analytics
 
 ---
+
+## [0.6.0] — 2026-09-09
+
+### Added
+- **`AuthContext` (`src/context/AuthContext.tsx`)** — React Context providing `user`, `userRole`, `chemistId`, `isAuthenticated` state; `login`, `signup`, `logout` actions backed by Supabase Auth; session persists across reloads via localStorage
+- **`AuthModal` (`src/components/AuthModal.tsx`)** — Full-screen overlay auth modal with:
+  - Login / Sign Up tabs
+  - Role selector (`Customer` / `Chemist Partner`) on Sign Up
+  - One-click demo account login cards for all three roles
+  - Password visibility toggle, error & success states, loading spinner
+- **`ErrorBoundary` (`src/components/ErrorBoundary.tsx`)** — React class component wrapping all three portals; catches render errors and shows a friendly recovery card (fixes KI-007)
+- **Supabase integration** — `@supabase/supabase-js` added; `src/lib/supabase.ts` singleton with graceful fallback when env vars are absent
+- **5 API modules** replacing mock data initializations:
+  - `src/api/medicines.ts` — `fetchMedicines()`, `fetchMedicineById()`
+  - `src/api/offers.ts` — `fetchAllOffers()`, `fetchOffersByMedicine()`, `updateOffer()`
+  - `src/api/chemists.ts` — `fetchChemists()`
+  - `src/api/reservations.ts` — `fetchUserReservations()`, `createReservation()`, `cancelReservation()`
+  - `src/api/auditLogs.ts` — `fetchAuditLogs()`, `appendAuditLog()`
+- **QR Code on Reservation** — `qrcode.react` (`<QRCodeSVG>`) renders a real scannable QR code after reservation confirmation, replacing the decorative barcode placeholder (fixes previous KI)
+- **Real-time Price Freshness** — `App.tsx` polls `fetchAllOffers()` every 60 seconds; `updatedMinutesAgo` computed from real DB `updated_at` timestamps (fixes KI-002)
+- **Database SQL scripts** in `supabase/`:
+  - `migrations/001_initial_schema.sql` — Full schema with RLS policies for all tables
+  - `seeds/seed.sql` — Converts all mock data to INSERT statements for initial DB population
+- **Auth-aware `Header`** — Shows user initials + role badge when logged in, "Sign In" button when not; portal switcher shows lock icon for restricted portals and prompts login when role is insufficient
+- **Global loading state** — Full-screen loading spinner while core data fetches on first mount
+- **Error recovery banner** — Amber banner shown if data fetch fails, with one-click Retry
+- **`VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`** added to `.env.example` with setup instructions
+
+### Changed
+- `App.tsx` — Rewrapped in `<AuthProvider>`; data layer replaced with async API calls; `handleReserveOffer` gated behind authentication check; portal switching enforces role access
+- `Header.tsx` — Auth-aware with user dropdown (email, role badge, Sign Out); portal switcher loop-rendered from array; lock icon on restricted portals
+- `ReserveModal.tsx` — Real `<QRCodeSVG>` replacing decorative barcode bars
+- `tsconfig.json` — Added `"types": ["vite/client"]` for `import.meta.env` TypeScript support
+- All three portals (`ChemistPortal`, `AdminModerationPortal`, customer tabs) wrapped in `<ErrorBoundary>`
+
+### Fixed
+- **KI-002** — `updatedMinutesAgo` now computed from real DB timestamps, not static mock values
+- **KI-007** — Error boundaries wrap all portal components preventing full-app crashes
+
 
 ## [0.5.0] — 2026-09-08
 

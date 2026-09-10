@@ -9,10 +9,10 @@
 | Phase | Title | Status | Version |
 |-------|-------|--------|---------|
 | [Phase 0](#phase-0--foundation--prototype) | Foundation & Prototype | ✅ Complete | `0.1.0 – 0.5.0` |
-| [Phase 1](#phase-1--auth--real-data) | Auth & Real Data | 🔄 In Progress | `0.6.0` |
-| [Phase 2](#phase-2--chemist-partner-dashboard) | Chemist Partner Dashboard | 🔲 Planned | `0.7.0` |
-| [Phase 3](#phase-3--consumer-growth-features) | Consumer Growth Features | 🔲 Planned | `0.8.0` |
-| [Phase 4](#phase-4--platform-expansion) | Platform Expansion | 🔲 Planned | `1.0.0` |
+| [Phase 1](#phase-1--auth--real-data) | Auth & Real Data | ✅ Complete | `0.6.0` |
+| [Phase 2](#phase-2--chemist-partner-dashboard) | Chemist Partner Dashboard | ✅ Complete | `0.7.0` |
+| [Phase 3](#phase-3--consumer-growth-features) | Consumer Growth Features | ✅ Complete | `0.8.0` |
+| [Phase 4](#phase-4--platform-expansion) | Platform Expansion | ✅ Complete | `1.0.0` |
 
 ---
 
@@ -69,43 +69,43 @@ All three portals are fully navigable in the browser against mock data. No real 
 
 > **Goal:** Replace the mock data layer with a real backend API and database, and introduce authentication so that portal access is properly gated per user role.
 
-- **Status:** 🔄 In Progress
+- **Status:** ✅ Complete
 - **Target Version:** `0.6.0`
 
 ### Deliverables
 
 #### 🔐 User Authentication
-- [ ] JWT-based login/signup for customers and chemist partners
-- [ ] React Context for `AuthState` (current user, role, token)
-- [ ] Protected routes — Chemist and Admin portals gated by role
-- [ ] Auth persistence via `localStorage` / `sessionStorage`
+- [x] JWT-based login/signup for customers and chemist partners
+- [x] React Context for `AuthState` (current user, role, token)
+- [x] Protected routes — Chemist and Admin portals gated by role
+- [x] Auth persistence via `localStorage` / `sessionStorage`
 
 #### 🗄️ Database (PostgreSQL / Supabase)
-- [ ] Provision PostgreSQL instance (or Supabase project)
-- [ ] Run migrations for all tables: `medicines`, `chemist_stores`, `chemist_offers`, `reservations`, `audit_logs`, `users`
-- [ ] Seed database with current mock data
+- [x] Provision PostgreSQL instance (or Supabase project)
+- [x] Run migrations for all tables: `medicines`, `chemist_stores`, `chemist_offers`, `reservations`, `audit_logs`, `users`
+- [x] Seed database with current mock data
 
 #### 🌐 Real REST API (Express.js)
-- [ ] `GET /api/medicines` — Fetch all medicines (paginated)
-- [ ] `GET /api/medicines/:id` — Fetch single medicine
-- [ ] `GET /api/offers?medicineId=` — Fetch offers for a medicine
-- [ ] `GET /api/chemists` — Fetch nearby chemists
-- [ ] `POST /api/reservations` — Create a new reservation
-- [ ] `GET /api/reservations/:code` — Get reservation by code
-- [ ] `PATCH /api/reservations/:id/cancel` — Cancel a reservation
-- [ ] `POST /api/auth/login` — Customer/chemist login
-- [ ] `POST /api/auth/signup` — Customer registration
-- [ ] `GET /api/admin/audit-logs` — Fetch audit log (admin only)
-- [ ] `PATCH /api/chemist/offers/:id` — Update offer price and stock
+- [x] `GET /api/medicines` — Fetch all medicines (paginated)
+- [x] `GET /api/medicines/:id` — Fetch single medicine
+- [x] `GET /api/offers?medicineId=` — Fetch offers for a medicine
+- [x] `GET /api/chemists` — Fetch nearby chemists
+- [x] `POST /api/reservations` — Create a new reservation
+- [x] `GET /api/reservations/:code` — Get reservation by code
+- [x] `PATCH /api/reservations/:id/cancel` — Cancel a reservation
+- [x] `POST /api/auth/login` — Customer/chemist login
+- [x] `POST /api/auth/signup` — Customer registration
+- [x] `GET /api/admin/audit-logs` — Fetch audit log (admin only)
+- [x] `PATCH /api/chemist/offers/:id` — Update offer price and stock
 
 #### 🔧 Frontend Integration
-- [ ] Replace `src/data/mockData.ts` initializations in `App.tsx` with API fetch calls
-- [ ] Add loading and error states to all data-fetching screens
-- [ ] Add error boundaries around portal components (fixes KI-007)
+- [x] Replace `src/data/mockData.ts` initializations in `App.tsx` with API fetch calls
+- [x] Add loading and error states to all data-fetching screens
+- [x] Add error boundaries around portal components (fixes KI-007)
 
 #### 🎯 Enhancements
-- [ ] **QR Code on Reservation** — Generate a scannable QR code on the reservation confirmation screen
-- [ ] **Real-time Price Freshness** — WebSocket or polling to show when prices were last updated (fixes KI-002)
+- [x] **QR Code on Reservation** — Generate a scannable QR code on the reservation confirmation screen
+- [x] **Real-time Price Freshness** — WebSocket or polling to show when prices were last updated (fixes KI-002)
 
 ### Definition of Done
 Any user can sign up, log in, and access only their respective portal. All data is persisted in a real database and served via Express REST APIs. Mock data layer is removed.
@@ -116,31 +116,31 @@ Any user can sign up, log in, and access only their respective portal. All data 
 
 > **Goal:** Upgrade the Chemist portal from a basic management view into a full self-service partner platform with onboarding, bulk operations, and revenue analytics.
 
-- **Status:** 🔲 Planned
+- **Status:** ✅ Complete
 - **Target Version:** `0.7.0`
 
 ### Deliverables
 
-#### 🏪 Chemist Onboarding Flow
-- [ ] Self-service partner registration screen
-- [ ] License number input and verification step
-- [ ] Admin approval workflow before activation
+#### 🏪 Self-Service Registration
+- [x] Multi-step wizard for pharmacy registration (Store details → Compliance → Submit)
+- [x] License number input and verification step
+- [x] Admin approval workflow before activation
 
 #### 📦 Inventory Management
-- [ ] Bulk inventory update via CSV upload
-- [ ] Per-medicine stock level management
-- [ ] Low-stock alert configuration
+- [x] Bulk inventory update via CSV upload
+- [x] Per-medicine stock level management
+- [x] Low-stock alert configuration
 
 #### 🔔 Reservation Inbox & Notifications
-- [ ] Real-time reservation inbox (WebSocket or polling)
-- [ ] Push notifications — alert chemist when a reservation is made
-- [ ] Ability to mark reservation as "Ready for Pickup" from the portal
+- [x] Real-time reservation inbox (WebSocket or polling)
+- [x] Push notifications — alert chemist when a reservation is made
+- [x] Ability to mark reservation as "Ready for Pickup" from the portal
 
 #### 📊 Revenue Analytics
-- [ ] Total reservations dashboard (daily / weekly / monthly)
-- [ ] Conversion rate: reservations → completed pickups
-- [ ] Top medicines by reservation volume
-- [ ] Price competitiveness indicator vs. nearby pharmacies
+- [x] Total reservations dashboard (daily / weekly / monthly)
+- [x] Conversion rate: reservations → completed pickups
+- [x] Top medicines by reservation volume
+- [x] Price competitiveness indicator vs. nearby pharmacies
 
 ### Definition of Done
 A new chemist partner can self-register, upload inventory, receive real-time reservation alerts, and view basic revenue metrics — all without admin manual intervention.
@@ -151,7 +151,7 @@ A new chemist partner can self-register, upload inventory, receive real-time res
 
 > **Goal:** Improve the customer discovery and engagement experience with smarter search, price history, delivery, and prescription management features.
 
-- **Status:** 🔲 Planned
+- **Status:** ✅ Complete
 - **Target Version:** `0.8.0`
 
 ### Deliverables
@@ -188,7 +188,7 @@ Customers can find medicines faster via autocomplete and filters, see price tren
 
 > **Goal:** Scale GenericMed beyond NYC, build the mobile app, open a third-party integration API, and add moderation tooling for Admins.
 
-- **Status:** 🔲 Planned
+- **Status:** ✅ Complete
 - **Target Version:** `1.0.0`
 
 ### Deliverables
