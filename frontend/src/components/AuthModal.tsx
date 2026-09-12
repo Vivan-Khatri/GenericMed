@@ -106,8 +106,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       {/* Backdrop */}
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      {/* Modal — max height + scrollable */}
+      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 flex flex-col" style={{ maxHeight: '92vh' }}>
 
         {/* Header gradient */}
         <div className="bg-gradient-to-br from-sky-600 via-cyan-600 to-teal-600 px-6 pt-6 pb-8">
@@ -145,8 +145,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </p>
         </div>
 
-        {/* Tab switcher */}
-        <div className="flex -mt-5 mx-6 bg-slate-100 rounded-xl p-1 shadow-sm">
+        {/* Tab switcher — overlaps gradient header */}
+        <div className="flex-shrink-0 flex -mt-5 mx-6 bg-slate-100 rounded-xl p-1 shadow-sm">
           {(['login', 'signup'] as const).map((t) => (
             <button
               key={t}
@@ -163,6 +163,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           ))}
         </div>
 
+        {/* Scrollable content area */}
+        <div className="overflow-y-auto flex-1">
         <div className="px-6 pt-5 pb-6 space-y-4">
 
           {/* Success message */}
@@ -375,6 +377,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </div>
           </div>
         </div>
+        </div> {/* end scrollable */}
       </div>
     </div>
   );
